@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>computed</title>
+</head>
+<body>
+    <div id="app">
+        {{prices}}
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+    <script>
+        new Vue ({
+            el:'#app',
+            data:{
+                bag1:[{name:'a',price:100,count:5},{name:'b',price:200,count:3}],
+                bag2:[{name:'c',price:300,count:2},{name:'d',price:600,count:8}]
+            },
+            computed:{
+                prices(){
+                    var prices = 0
+                    for(var i = 0;i<this.bag1.length;i++){
+                        prices+=this.bag1[i].price*this.bag1[i].count
+                    }
+                    for(var j = 0;j<this.bag2.length;j++){
+                        prices+=this.bag2[j].price*this.bag2[j].count
+                    }
+                    return prices
+                }
+            }
+        })
+    </script>
+</body>
+</html>
