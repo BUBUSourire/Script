@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>vue-test/v-model</title>
+    <style>
+        input {
+            margin-bottom: 30px;
+        }
+    </style>
+</head>
+
+<body>
+    <script src="https://unpkg.com/vue"></script>
+
+    <div id="app">
+        <strong>N1：input与textarea</strong> <br><br>
+        input:
+        <input type="text" v-model='N1'> ---{{N1}}<br>
+        textarea:
+        <textarea name="" id="" cols="19" rows="5" v-model='N1_1'></textarea>---{{N1_1}}
+        <hr>
+
+        <strong>N2:单选框</strong> <br><br>
+        单个单选框：
+        <input type="radio" :checked='N2'> (v-model不生效) <br>
+        多个单选框：
+        苹果:<input type="radio" name="checked" value="苹果" v-model="N2_checkname">
+        香蕉:<input type="radio" name="checked" value="香蕉" v-model="N2_checkname">
+        桃子:<input type="radio" name="checked" value="桃子" v-model="N2_checkname">
+        ---{{N2_checkname}}
+        <hr>
+
+        <strong>N3：复选框</strong><br><br>
+        单个复选框<br>
+        v-bind单个复选框：<input type="checkbox" v-bind:checked='N3_1'> <br>
+        v-model单个复选框：<input type="checkbox" v-model='N3_1'><br>
+        多个复选框 <br>
+        苹果:<input type="checkbox" value="苹果" v-model="N3_checkname">
+        香蕉:<input type="checkbox" value="香蕉" v-model="N3_checkname">
+        桃子:<input type="checkbox" value="桃子" v-model="N3_checkname">
+        ---{{N3_checkname}}
+        <hr>
+
+        <strong>N4：下拉框</strong><br><br>
+        单选下拉框：
+        <select v-model="N4_1">
+            <option value="苹果">苹果</option>
+            <option value="香蕉">香蕉</option>
+            <option value="桃子">桃子</option>
+        </select>
+        ---{{N4_1}}
+        <br><br><br><br>
+        多选下拉框：
+        <select v-model="N4_2" multiple>
+            <option value="苹果">苹果</option>
+            <option value="香蕉">香蕉</option>
+            <option value="桃子">桃子</option>
+        </select>
+        ---{{N4_2}}
+        <br><br><br><br>
+        <hr>
+        <strong>N5：绑定值</strong><br><br>
+        单选按钮： <input type="radio" v-model='pick1' :value='value1'>
+        {{pick1}}
+        <br>
+        复选框：<input type="checkbox" v-model='pick2' :true-value='valueT' :false-value='valueF'><br>
+        {{pick2 == valueT}} -- {{valueT}} <br>
+        {{pick2 == valueF}} -- {{valueF}}
+
+        <hr>
+        <strong>N5：修饰符</strong><br><br>
+        .lazy：使其在失去焦点或者敲回车键之后再更新<br><br>
+        <input type="text" v-model='N5_1'> {{N5_1}} <br>
+        <input type="text" v-model.lazy='N5_2'> {{N5_2}}
+        <br><br>
+        .number：输入的内容，只要都是数字内容则实时转化为数字类型 <br><br>
+        <input type="text" v-model.number='N5_3'> {{N5_3}}--{{typeof N5_3}}
+        <br><br>
+        .trim：过滤输入框中的首尾空格
+        <input type="text" v-model.trim='N5_4'>
+        {{N5_4.split('').length}}
+    </div>
+
+
+    <script>
+        var app = new Vue({
+            el: '#app',
+            data: {
+                N1: '',
+                N1_1: '',
+                N2: true,
+                N2_checkname: '',
+                N3_1: true,
+                N3_checkname: [],
+                N4_1: '',
+                N4_2: [],
+                pick1: true,
+                value1: '111',
+                pick2:true,
+                valueT: '被选中',
+                valueF: '未被选中',
+                N5_1:'',
+                N5_2:'',
+                N5_3:'',
+                N5_4:''
+            }
+        })
+    </script>
+
+</body>
+
+</html>
