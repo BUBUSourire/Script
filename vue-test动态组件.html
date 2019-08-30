@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>动态组件</title>
+</head>
+
+<body>
+    <div id="app">
+        <component :is="currentView"></component>
+        <button @click="sing('1')">第一句</button>
+        <button @click="sing('2')">第二句</button>
+        <button @click="sing('3')">第三句</button>
+        <button @click="sing('4')">第四句</button>
+    </div>
+    <script src="https://unpkg.com/vue"></script>
+    <script>
+        let app = new Vue({
+            el: '#app',
+            data: {
+                currentView: 'song1'
+            },
+            methods: {
+                sing(value) {
+                    this.currentView = 'song' + value
+                }
+            },
+            components: {
+                'song1': {
+                    template: '<div>假如我年少有为不自卑</div>'
+                },
+                'song2': {
+                    template: '<div>懂得什么是珍贵</div>'
+                },
+                'song3': {
+                    template: '<div>金钱地位</div>'
+                },
+                'song4': {
+                    template: '<div>搏到了却好想退回</div>'
+                }
+            },
+        })
+    </script>
+</body>
+
+</html>
