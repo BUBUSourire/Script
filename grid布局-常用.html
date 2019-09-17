@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>grid布局</title>
+    <style>
+        .container {
+            min-height: 100vh;
+            border: 1px solid red;
+            display: grid;
+            grid-template: "header header header" 50px ".      main   aside" auto "footer footer footer" 50px
+    /10% auto 10%
+        }
+
+        .header {
+            grid-area: header;
+            background-color: skyblue;
+            display: grid;
+            justify-items: center;
+            align-items: center;
+        }
+
+        .main {
+            grid-area: main;
+            background-color: yellow;
+        }
+
+        .aside {
+            grid-area: aside;
+            background-color: pink;
+        }
+
+        .footer {
+            grid-area: footer;
+            background-color: lightgreen;
+        }
+
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">header</div>
+    <div class="main">main</div>
+    <div class="aside">aside</div>
+    <div class="footer">footer</div>
+</div>
+</body>
+</html>
