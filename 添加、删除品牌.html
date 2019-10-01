@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        .addTitle {
+            padding: 10px 10px;
+            background-color: #3D7EAC;
+            border-top-left-radius: 3px;
+            border-top-right-radius: 3px;
+        }
+
+        .add {
+            padding: 10px 0;
+            border: 1px solid #3D7EAC;
+            border-bottom-left-radius: 3px;
+            border-bottom-right-radius: 3px;
+        }
+
+        input {
+            padding: 7px 5px;
+            border-radius: 5px;
+            background: none;
+            outline: none;
+            border: 1px solid #cccccc;
+        }
+
+        button {
+            padding: 5px 20px;
+            border-radius: 3px;
+            border:1px solid #3D7EAC;
+            background-color: #fff;
+            cursor: pointer;
+        }
+
+        table {
+            border-collapse: collapse;
+            text-align: center;
+        }
+
+        tr {
+            height: 30px;
+            background-color: #fff;
+        }
+
+        tr:nth-child(2n) {
+            background-color: #eee;
+        }
+
+        td {
+            width: 300px;
+            border: 1px solid #cccccc;
+            background-origin: padding-box;
+            margin: 0;
+        }
+        .headTitle {
+            height: 40px;
+            font-weight: 700;
+        }
+    </style>
+    <title>添加品牌</title>
+</head>
+
+<div id="app">
+    <div>
+        <div class="addTitle">添加品牌</div>
+        <div class="add">
+            id：<input type="text" v-model="id">
+            Name：<input type="text" v-model="name">
+            <button @click="add">添加</button>
+            搜索名称关键字：<input type="text">
+        </div>
+    </div>
+    <div class="addContent">
+        <table>
+            <thead>
+                <tr class="headTitle">
+                    <td>ID</td>
+                    <td>品牌名称</td>
+                    <td>添加时间</td>
+                    <td>操作</td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="item in lists" :key="item">
+                    <td>{{item.id}}</td>
+                    <td>{{item.name}}</td>
+                    <td>{{item.ctime}}</td>
+                    <td>
+                        <a href="#" @click.prevent="remove(item.id)">删除</a>
+                    </td>
+                </tr>
+            </tbody>
+
+        </table>
+    </div>
+</div>
+
+<body>
+    <script src="https://cdn.bootcss.com/vue/2.6.10/vue.min.js"></script>
+    <script>
+       new Vue({
+            el: '#app',
+            data: {
+                id:'',
+                name:'',
+                lists: [
+                    { id: 1, name: 'aa', ctime: new Date() },
+                    { id: 2, name: 'bb', ctime: new Date() },
+                    { id: 3, name: 'cc', ctime: new Date() },
+                ]
+            },
+            methods:{
+                add(){
+                    this.lists.push({id:this.id,name:this.name,ctime:new Date()})
+                    this.id = ''
+                    this.name = ''
+                },
+                remove(itemId){
+                let index = this.lists.findIndex(item =>{
+                    if(item.id === itemId){
+                        return true
+                    }
+                })
+                this.lists.splice(index,1)
+
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>
