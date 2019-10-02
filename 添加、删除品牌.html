@@ -35,12 +35,13 @@
         button {
             padding: 5px 20px;
             border-radius: 3px;
-            border:1px solid #3D7EAC;
+            border: 1px solid #3D7EAC;
             background-color: #fff;
             cursor: pointer;
         }
 
         table {
+            width: 100%;
             border-collapse: collapse;
             text-align: center;
         }
@@ -60,6 +61,7 @@
             background-origin: padding-box;
             margin: 0;
         }
+
         .headTitle {
             height: 40px;
             font-weight: 700;
@@ -72,10 +74,10 @@
     <div>
         <div class="addTitle">添加品牌</div>
         <div class="add">
-            id：<input type="text" v-model="id">
+            id：<input type="text" v-model="id" v-focus>
             Name：<input type="text" v-model="name">
             <button @click="add">添加</button>
-            搜索名称关键字：<input type="text">
+            搜索名称关键字：<input type="text" v-model="keywords">
         </div>
     </div>
     <div class="addContent">
@@ -89,49 +91,109 @@
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="item in lists" :key="item">
+                <tr v-for="item in search(keywords)" :key="item">
                     <td>{{item.id}}</td>
                     <td>{{item.name}}</td>
-                    <td>{{item.ctime}}</td>
+                    <td>{{item.ctime | numDate}}</td>
                     <td>
                         <a href="#" @click.prevent="remove(item.id)">删除</a>
                     </td>
                 </tr>
             </tbody>
-
         </table>
+        <h1>{{date | currentTime}}</h1>
     </div>
 </div>
 
 <body>
     <script src="https://cdn.bootcss.com/vue/2.6.10/vue.min.js"></script>
     <script>
-       new Vue({
+        Vue.directive('focus', {
+            inserted(el) {
+                el.focus()
+            }
+        })
+        new Vue({
             el: '#app',
             data: {
-                id:'',
-                name:'',
+                date: new Date(),
+                id: '',
+                name: '',
+                keywords: '',
                 lists: [
                     { id: 1, name: 'aa', ctime: new Date() },
                     { id: 2, name: 'bb', ctime: new Date() },
                     { id: 3, name: 'cc', ctime: new Date() },
                 ]
             },
-            methods:{
-                add(){
-                    this.lists.push({id:this.id,name:this.name,ctime:new Date()})
+            methods: {
+                add() {
+                    this.lists.push({ id: this.id, name: this.name, ctime: new Date() })
                     this.id = ''
                     this.name = ''
                 },
-                remove(itemId){
-                let index = this.lists.findIndex(item =>{
-                    if(item.id === itemId){
-                        return true
-                    }
-                })
-                this.lists.splice(index,1)
+                remove(itemId) {
+                    let index = this.lists.findIndex(item => {
+                        if (item.id === itemId) {
+                            return true
+                        }
+                    })
+                    this.lists.splice(index, 1)
+                },
+                search(keywords) {
+                    //方法一    默认keywords是"，indexOf('')得到的是0，每一项都是符合!=-1这个条件，所以默认所有项都会都会push到数组中并被渲染
+                    // let newLists = []
+                    // this.lists.forEach(item => {
+                    //     if(item.name.indexOf(keywords) != -1){
+                    //         newLists.push(item)
+                    //     }
+                    // });
+                    // return newLists
 
+                    // //方法二
+                    let newLists = this.lists.filter(item => {
+                        if (item.name.includes(keywords)) {
+                            return item
+                        }
+                    })
+                    return newLists
+                },
+                beforeDestroy() {
+                    //清除定时器
+                    if (this.timeID) {
+                        clearInterval(this.timeID)
+                    }
+                },
+            },
+            filters: {
+                //这里的value就是需要过滤的数据,此处就是传入的date
+                numDate(value) {
+                    var date = new Date(value)
+                    var year = date.getFullYear()
+                    var month = (date.getMonth() + 1).toString().padStart(2, '0')
+                    var day = date.getDay().toString().padStart(2, '0')
+                    var hour = date.getHours().toString().padStart(2, '0')
+                    var min = date.getMinutes().toString().padStart(2, '0')
+                    var sec = date.getSeconds().toString().padStart(2, '0')
+                    return `${year}-${month}-${day}-${hour}:${min}:${sec}`
+                },
+
+                currentTime(value) {
+                    var date = new Date(value)
+                    var year = date.getFullYear()
+                    var month = (date.getMonth() + 1).toString().padStart(2, '0')
+                    var day = date.getDay().toString().padStart(2, '0')
+                    var hour = date.getHours().toString().padStart(2, '0')
+                    var min = date.getMinutes().toString().padStart(2, '0')
+                    var sec = date.getSeconds().toString().padStart(2, '0')
+                    return `${year}-${month}-${day}-${hour}:${min}:${sec}`
                 }
+            },
+            mounted(date) {
+                this.beforeDestroy()
+                this.timeID = setInterval(() => { //this代表的就是vue实例
+                    this.date = new Date()
+                }, 1000)
             }
         })
     </script>
