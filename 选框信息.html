@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id='app'>
+        <!-- <input type="checkbox" value="颜色1" v-model='msg'>
+        <input type="checkbox" value="颜色2" v-model='msg'>
+        <input type="checkbox" value="颜色3" v-model='msg'> -->
+        <input type="checkbox" v-for="item in lists" :value="item" v-model="msg">
+        {{msg}}
+    </div>
+
+    <script src="https://cdn.bootcss.com/vue/2.6.10/vue.min.js"></script>
+    <script>
+        new Vue({
+            el: '#app',
+            data: {
+                msg:[],
+                lists:[
+                    {num1:1,sum:'aa1'},
+                    {num1:2,sum:'aa2'},
+                    {num1:3,sum:'aa3'},
+                ]
+            }
+        })
+    </script>
+</body>
+
+</html>
